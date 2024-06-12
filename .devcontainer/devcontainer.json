@@ -1,0 +1,17 @@
+{
+    "image": "mcr.microsoft.com/vscode/devcontainers/base:ubuntu-24.04",
+    "features": {
+        "ghcr.io/devcontainers/features/docker-in-docker:2": {},
+        "ghcr.io/devcontainers/features/azure-cli:1": {}
+    },
+    "postCreateCommand": "sudo apt-get update && sudo apt-get install -y apache2-utils",
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "mads-hartmann.bash-ide-vscode",
+                "dbaeumer.vscode-eslint",
+                "EditorConfig.EditorConfig"
+            ]
+        }
+    }
+}
