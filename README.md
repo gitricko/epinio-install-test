@@ -9,6 +9,25 @@
 - run `./makefile.sh install`
 
 # Check UI
-- run `./makefile.sh start-webtop
-- goto codespace's PORTS tab and launch the webtop app at port 33444
-- use `epinio show settings` to get the URI and paste into WebTop's FireFox and into epinio admin console
+- run `./makefile.sh start-webtop`
+- if you are using codespace to test epinio, goto PORTS tab and launch the webtop URI at port 33444
+- use `epinio show settings` to get the URI of epinio api server and paste into WebTop/Local Machine's FireFox to checkout epinio admin ui
+```
+$> epinio settings show
+
+🚢  Show Settings
+Settings: /Users/XXXX/Library/Application Support/epinio/settings.yaml
+
+✔️  Ok
+|        KEY        |                 VALUE                 |
+|-------------------|---------------------------------------|
+| Colorized Output  | true                                  |
+| Current Namespace | workspace                             |
+| Default App Chart |                                       |
+| API User Name     | admin                                 |
+| API Password      | ***********                           |
+| API Token         |                                       |
+| API Url           | https://epinio.192.168.69.36.sslip.io |
+| WSS Url           | wss://epinio.192.168.69.36.sslip.io   |
+| Certificates      | Present                               |
+```
