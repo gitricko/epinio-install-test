@@ -13,6 +13,14 @@ jobs:
         uses: gitricko/sonarless@v1.1
         with:
           sonar-source-path: '.'
+          sonar-metrics-path: './sonarqube-results.json'
+
+      - name: Check Sonar Metrics
+        run: |
+          echo "Checking for 0 vulnerabilities in Sonar Metrics JSON"
+          VULN=$(cat ./sonarqube-results | jq -r '.component.measures[] | select(.metric == "vulnerabilities").value')
+          echo "# of vulnerabilities = ${VULN}"
+          [ "${VULN}" -eq "0" ]
 
   Test-Epinio-Install:
     runs-on: ubuntu-latest
