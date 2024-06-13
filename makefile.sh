@@ -140,11 +140,8 @@ function test-push-app-db() {
 		epinio push -n wordpress -r wordpress.${DOMAIN} -e BP_PHP_VERSION=8.1.x -e BP_PHP_SERVER=nginx -e BP_PHP_WEB_DIR=wordpress \
 			-e DB_HOST=$(epinio configurations list | grep mydb | awk '{print $2}') -e SERVICE_NAME=mydb
 	)
-	sleep 3 && curl -s -k https://wordpress.${DOMAIN} -L | grep 'Error establishing' || true 
-	curl -s -k https://wordpress.${DOMAIN} -L | grep 'option value="en_CA"'
-
+	sleep 3 && curl -s -k https://wordpress.${DOMAIN} -L | grep 'Install WordPress'
 	echo "****** test epinio app with backing-sevice: succeeded"
-
 }
 
 

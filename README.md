@@ -1,3 +1,5 @@
+[![Test](https://github.com/gitricko/epinio-install-test/actions/workflows/test.yml/badge.svg)](https://github.com/gitricko/epinio-install-test/actions/workflows/test.yml)
+
 # epinio-install-test
 
 # Instructions
