@@ -10,7 +10,8 @@
             "extensions": [
                 "mads-hartmann.bash-ide-vscode",
                 "dbaeumer.vscode-eslint",
-                "EditorConfig.EditorConfig"
+                "EditorConfig.EditorConfig",
+                "ms-vscode.makefile-tools"
             ]
         }
     }
