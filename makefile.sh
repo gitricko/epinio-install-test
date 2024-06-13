@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 
 export CLUSTER_NAME=${CLUSTER_NAME:-"epinio"}
 export TMP_DIR=${TMP_DIR:-"/tmp"}
@@ -12,16 +13,17 @@ export DEV_PWD=${DEV_PWD:-"password"}
 export DEV_PWD_ENCRYPT=${DEV_PWD_ENCRYPT:-"$(htpasswd -bnBC 10 "" ${DEV_PWD} | tr -d :)"}
 export EPINIO_DEPS_BIN=${EPINIO_DEPS_BIN:-"${HOME}/.epinio-install-test"}
 export PATH="${PATH}:${EPINIO_DEPS_BIN}"
-
+export DOCKER_WEBTOP_SERVER=${DOCKER_WEBTOP_SERVER:-"linuxserver/webtop:ubuntu-mate-57db009c-ls100"}
+export WEBTOP_INSTANCE_NAME=${WEBTOP_INSTANCE_NAME:-"webtop"}
 
 function check-dependencies() {
-    command -v htpasswd > /dev/null || echo "htpasswd - please install"
-    command -v docker > /dev/null || echo "docker - please install"
-	command -v k3d > /dev/null || echo "k3d - please install"
-    command -v kubectl > /dev/null || echo "kubectl - please install"
-    command -v helm > /dev/null || echo "helm - please install"
-    command -v epinio > /dev/null || echo "htpasswd - please install"
-    command -v k9s > /dev/null || echo "k9s - please install"
+    command -v htpasswd > /dev/null || echo "missing: htpasswd"
+    command -v docker > /dev/null || echo "missing: docker"
+	command -v k3d > /dev/null || echo "missing: k3d"
+    command -v kubectl > /dev/null || echo "missing: kubectl"
+    command -v helm > /dev/null || echo "missing: helm"
+    command -v epinio > /dev/null || echo "missing: epinio"
+    command -v k9s > /dev/null || echo "missing: k9s"
 }
 
 function install-dependencies() {
@@ -169,5 +171,24 @@ function install() {
 	test-push-app-db
 }
 
+function start-webtop() {
+	mkdir -p /tmp/webtop
+	if ! docker inspect "${WEBTOP_INSTANCE_NAME}"; then
+		docker run -d \
+			--name="${WEBTOP_INSTANCE_NAME}" \
+			--security-opt seccomp=unconfined `#optional` \
+			-e PUID=1000 \
+			-e PGID=1000 \
+			-e TZ=Etc/UTC \
+			-e SUBFOLDER=/ `#optional` \
+			-e TITLE=Webtop `#optional` \
+			-p 33444:3000 \
+			--shm-size="1gb" `#optional` \
+			--restart unless-stopped \
+			lscr.io/linuxserver/webtop:ubuntu-mate
+    else
+        docker start "${WEBTOP_INSTANCE_NAME}"
+    fi
+}
 
 "$*"
